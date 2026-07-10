@@ -11,6 +11,7 @@ from __future__ import annotations
 
 from .bilibili import BilibiliAdapter
 from .feishu import BytedanceAdapter, LiAutoAdapter, NioAdapter
+from .leihuo import LeihuoAdapter
 from .meituan import MeituanAdapter
 from .mihoyo import MihoyoAdapter
 from .netease import NeteaseAdapter
@@ -25,6 +26,7 @@ REGISTRY: dict[str, tuple[type, bool]] = {
     "xiaohongshu": (XiaohongshuAdapter, False),
     "meituan": (MeituanAdapter, False),
     "mihoyo": (MihoyoAdapter, False),
+    "leihuo": (LeihuoAdapter, False),
     # 浏览器(签名/动态凭证反爬)，仅本地
     "bilibili": (BilibiliAdapter, True),
     "bytedance": (BytedanceAdapter, True),
