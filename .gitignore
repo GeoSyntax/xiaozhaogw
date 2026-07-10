@@ -1,0 +1,12 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# 探测临时文件
+probe_*.py
+probe_out.txt
+
+# 本地配置里可能填了推送 key，避免误提交（见 config.example.yaml）
+# 注意：jobs.db 不忽略——它是去重记忆，GitHub Actions 靠它跨运行保留状态

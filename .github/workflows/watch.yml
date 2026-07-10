@@ -1,0 +1,56 @@
+name: 校招岗位监控
+
+# 触发方式：定时 + 手动
+on:
+  schedule:
+    # 每 30 分钟一轮（UTC 时间，cron 无时区概念；频率与时区无关，无需换算）。
+    # 想更快改成 "*/15 * * * *"；注意 GitHub 免费额度和它对高频 cron 的限流。
+    - cron: "*/30 * * * *"
+  workflow_dispatch: {}   # 允许在 Actions 页面手动点一次
+
+# 关键：给 workflow 写权限，才能把 jobs.db 变更 commit 回仓库
+permissions:
+  contents: write
+
+# 避免两轮任务并发跑（上一轮没结束就触发下一轮）导致 commit 冲突
+concurrency:
+  group: job-watch
+  cancel-in-progress: false
+
+jobs:
+  watch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 检出仓库（带上历史的 jobs.db 作为去重记忆）
+        uses: actions/checkout@v4
+
+      - name: 安装 Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: 安装依赖
+        run: pip install -r requirements.txt
+
+      - name: 运行采集
+        env:
+          # CI 环境跳过需要浏览器的公司（字节/B站），只跑 httpx 公司
+          CI_SKIP_BROWSER: "1"
+          # 推送渠道 + key 从仓库 Secrets 注入，绝不写进代码
+          NOTIFY_CHANNEL: ${{ secrets.NOTIFY_CHANNEL }}
+          SERVERCHAN_SENDKEY: ${{ secrets.SERVERCHAN_SENDKEY }}
+          PUSHPLUS_TOKEN: ${{ secrets.PUSHPLUS_TOKEN }}
+        run: python main.py
+
+      - name: 把去重记忆(jobs.db)提交回仓库
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          # 只有 jobs.db 真的变了才提交，避免空提交
+          if ! git diff --quiet -- jobs.db; then
+            git add jobs.db
+            git commit -m "chore: 更新岗位去重库 [skip ci]"
+            git push
+          else
+            echo "jobs.db 无变化，跳过提交"
+          fi

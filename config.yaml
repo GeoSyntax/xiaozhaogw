@@ -1,0 +1,104 @@
+# 校招岗位监控 配置文件
+# 改这里就能调整行为，不用动代码。
+
+# ── 数据库 ──
+db_path: "jobs.db"
+
+# ── 监控哪些公司 ──
+# enabled: true 才会采集。needs_browser 的公司(字节)在 CI 里会被 ci_skip_browser 跳过。
+# 新增公司：写好适配器 + 在 registry.py 登记后，来这里加一段即可。
+companies:
+  tencent:
+    enabled: true
+    attr_ids: ["2", "3"]   # 2=校招 3=实习；只看校招填 ["2"]
+    max_pages: 5
+    page_size: 100
+  netease:
+    enabled: true
+    project_ids: [69]      # 69=网易互联网2026届校招；换届只改这里
+    max_pages: 10
+  bilibili:
+    enabled: true
+    max_pages: 10
+  xiaohongshu:
+    enabled: true
+    max_pages: 10
+  meituan:
+    enabled: true
+    job_types: ["1", "2"]  # 1=应届生校招 2=实习；只看校招填 ["1"]
+    max_pages: 10
+    page_size: 50
+  mihoyo:
+    enabled: true
+    max_pages: 10
+    page_size: 50
+  # 以下是飞书招聘平台系(字节/蔚来/理想同一套接口)，带签名，需浏览器，仅本地
+  bytedance:
+    enabled: true
+    max_pages: 3
+    headless: true
+  nio:
+    enabled: true
+    max_pages: 3
+    headless: true
+  liauto:
+    enabled: true
+    max_pages: 3
+    headless: true
+
+# CI 环境(GitHub Actions)设为 true，跳过需要浏览器的公司(字节/B站/蔚来/理想)。
+# 本地跑保持 false。
+ci_skip_browser: false
+
+# ── 技术岗过滤 ──
+# 命中任一 include 且 不命中任何 exclude，才算你要的岗位。
+# 大小写不敏感，匹配"岗位名 + 分类"。按你的方向增删。
+filter:
+  include:
+    - 技术          # 腾讯等自带"技术"分类，命中最准
+    - 开发
+    - 工程师
+    - 研发
+    - 算法
+    - 后端
+    - 前端
+    - 客户端
+    - 测试
+    - 数据
+    - 后台
+    - 软件
+    - 机器学习
+    - 大模型
+    - 引擎
+    # 英文岗位名(腾讯校招很多英文标题)
+    - engineer
+    - developer
+    - software
+    - backend
+    - frontend
+    - algorithm
+    - data
+  exclude:
+    # 现在(7月)校招正式岗很少、实习岗为主，默认校招+实习都监控。
+    # 若只想看校招正式岗，把下面这行的注释去掉：
+    # - 实习
+    - 销售
+    - 运营
+    - 产品经理     # 只排产品经理，避免误伤"产品开发"
+    - 设计
+    - 市场
+    - 人力
+    - 财务
+    - 法务
+    - 行政
+
+# ── 通知 ──
+# channel 三选一：
+#   console    命令行打印(调试用，默认)
+#   serverchan Server酱微信推送，去 https://sct.ftqq.com 登录拿 SendKey
+#   pushplus   PushPlus微信推送，去 https://www.pushplus.plus 登录拿 token
+# 想收手机通知：把 channel 改成 serverchan 或 pushplus，并填对应的 key。
+notify:
+  channel: console
+  serverchan_sendkey: ""
+  pushplus_token: ""

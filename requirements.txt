@@ -1,0 +1,9 @@
+# 核心采集依赖（GitHub Actions CI 只需这些，保持轻量）
+httpx>=0.28
+pyyaml>=6.0
+
+# 本地 Web 看板依赖（dashboard.py 用；CI 采集不需要）
+flask>=3.0
+
+# 注意：字节/B站等浏览器公司还需 playwright + 系统 Chrome，
+# 本地按需安装：pip install playwright（无需 playwright install，用系统 Chrome）
