@@ -42,15 +42,18 @@ Windows 控制台若中文乱码，命令前加 `PYTHONUTF8=1`。
 
 - **companies**：每家 `enabled: true/false` 控制是否采集
 - **filter.include / exclude**：技术岗关键词，按你的方向增删
-- **notify.channel**：`console`(打印) / `serverchan` / `pushplus`
+- **notify.channel**：`console`(打印) / `serverchan` / `pushplus` / `telegram`
 - **notify.max_push**：单轮最多推几条（防刷屏，默认 30）
 
-## 收微信通知
+## 收通知
 
-二选一，都免费、扫码即用：
+三选一：
 
-- **Server酱**：登录 https://sct.ftqq.com 拿 SendKey，`channel` 设 `serverchan`，填 `serverchan_sendkey`
-- **PushPlus**：登录 https://www.pushplus.plus 拿 token，`channel` 设 `pushplus`，填 `pushplus_token`
+- **Server酱**（微信，国内直连）：登录 https://sct.ftqq.com 拿 SendKey，`channel` 设 `serverchan`，填 `serverchan_sendkey`
+- **PushPlus**（微信，国内直连）：登录 https://www.pushplus.plus 拿 token，`channel` 设 `pushplus`，填 `pushplus_token`
+- **Telegram**：找 [@BotFather](https://t.me/BotFather) 发 `/newbot` 建 bot 拿 `bot_token`，找 [@userinfobot](https://t.me/userinfobot) 拿你的 `chat_id`，`channel` 设 `telegram`，填 `telegram_bot_token` + `telegram_chat_id`
+
+> **Telegram 的网络注意**：Telegram API 国内需代理才能访问，**但 GitHub Actions 的海外 IP 可直连**。所以推荐 Telegram 走云端自动跑（本地跑 TG 推送才需要代理），微信渠道则本地/云端都能直连。
 
 ## 本地 Web 看板
 
@@ -64,7 +67,7 @@ Windows 控制台若中文乱码，命令前加 `PYTHONUTF8=1`。
 
 ## 部署到 GitHub Actions（云端自动跑）
 
-让腾讯/网易/小红书在云端每 30 分钟自动跑，无需开电脑。
+让 5 家 httpx 公司（腾讯/网易/小红书/美团/米哈游）在云端每 30 分钟自动跑，无需开电脑。已实测：GitHub Actions 的海外 IP 能完整直连这 5 家的国内接口，抓取条数与本地一致，无需代理。
 
 1. **建仓库并推代码**（`jobs.db` 要一起提交，它是去重记忆）：
    ```bash
@@ -74,13 +77,16 @@ Windows 控制台若中文乱码，命令前加 `PYTHONUTF8=1`。
    git push -u origin main
    ```
 
-2. **配 Secrets**：仓库 Settings → Secrets and variables → Actions → New secret，加：
-   - `NOTIFY_CHANNEL`：`serverchan` 或 `pushplus`
-   - `SERVERCHAN_SENDKEY` 或 `PUSHPLUS_TOKEN`：对应的 key
+2. **配 Secrets**：仓库 Settings → Secrets and variables → Actions → New secret，按渠道加：
+   - 微信（Server酱）：`NOTIFY_CHANNEL`=`serverchan` + `SERVERCHAN_SENDKEY`
+   - 微信（PushPlus）：`NOTIFY_CHANNEL`=`pushplus` + `PUSHPLUS_TOKEN`
+   - Telegram：`NOTIFY_CHANNEL`=`telegram` + `TELEGRAM_BOT_TOKEN` + `TELEGRAM_CHAT_ID`
+
+   > Telegram 在国内需代理，但 GitHub Actions 的海外 IP 能直连 Telegram API——云端跑 TG 推送反而最顺，无需任何代理。
 
 3. **开启 Actions**：进 Actions 页，启用 workflow。可点 "Run workflow" 手动跑一次验证。
 
-之后它每 30 分钟自动跑，发现新岗位推你微信，并把 `jobs.db` 提交回仓库作为下轮的去重依据。
+之后它每 30 分钟自动跑，发现新岗位推你（微信或 Telegram），并把 `jobs.db` 提交回仓库作为下轮的去重依据。
 
 > **工作原理**：GitHub Actions 每次运行是全新环境，去重记忆靠"每轮把 jobs.db commit 回仓库、下轮 checkout 带回"实现。commit 带 `[skip ci]` 避免自我触发。
 

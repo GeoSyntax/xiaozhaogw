@@ -1,13 +1,18 @@
 """通知器。
 
-支持三种渠道，用 config.yaml 的 notify.channel 选择：
+支持四种渠道，用 config.yaml 的 notify.channel 选择：
     - console : 命令行打印(默认，用于调试)
     - serverchan : Server酱(方糖)，微信推送，需要 sendkey
     - pushplus : PushPlus，微信推送，需要 token
+    - telegram : Telegram Bot 推送，需要 bot_token + chat_id
 
 Server酱 和 PushPlus 都是免费、无需自建服务器、扫码即用的微信推送服务：
     - Server酱: https://sct.ftqq.com  登录后拿 SendKey
     - PushPlus: https://www.pushplus.plus  登录后拿 token
+
+Telegram：找 @BotFather 建 bot 拿 bot_token，找 @userinfobot 拿你的 chat_id。
+    注意 Telegram API 国内需代理才能访问，但 GitHub Actions 海外 IP 可直连，
+    所以云端自动跑 + TG 推送这条链路无需任何代理。
 
 新增渠道只要再写一个 Notifier 子类并在 build_notifier 里注册即可。
 """
@@ -129,6 +134,67 @@ class PushPlusNotifier(BaseNotifier):
             print(f"[PushPlus] 推送异常: {e}")
 
 
+class TelegramNotifier(BaseNotifier):
+    """Telegram Bot 推送。
+
+    bot_token 找 @BotFather 建 bot 拿；chat_id 找 @userinfobot 拿。
+    Telegram sendMessage 单条正文上限 4096 字符，超长自动分段发送。
+    """
+
+    def __init__(self, bot_token: str, chat_id: str) -> None:
+        self.bot_token = bot_token
+        self.chat_id = chat_id
+        self.url = f"https://api.telegram.org/bot{bot_token}/sendMessage"
+
+    def notify(self, jobs: list[Job], overflow: int = 0) -> None:
+        if not jobs:
+            print("本轮没有发现新岗位。")
+            return
+        title, body = _format_text(jobs, overflow)
+        # Telegram 支持 Markdown，但对特殊字符敏感易 400，这里用纯文本最稳
+        full = f"{title}\n\n{body}"
+        chunks = self._split(full, limit=4000)
+        for idx, chunk in enumerate(chunks, 1):
+            try:
+                resp = httpx.post(
+                    self.url,
+                    json={
+                        "chat_id": self.chat_id,
+                        "text": chunk,
+                        "disable_web_page_preview": True,
+                    },
+                    timeout=15,
+                )
+                ok = resp.status_code == 200 and resp.json().get("ok") is True
+                tag = f"[Telegram {idx}/{len(chunks)}]"
+                print(f"{tag} 推送{'成功' if ok else '失败'}: {resp.text[:120]}")
+            except Exception as e:
+                print(f"[Telegram] 推送异常: {e}")
+
+    @staticmethod
+    def _split(text: str, limit: int = 4000) -> list[str]:
+        """按行把长文本切成不超过 limit 字符的段，尽量不从行中间断开。"""
+        chunks: list[str] = []
+        cur = ""
+        for line in text.split("\n"):
+            # 单行就超长(极少见)，硬切
+            if len(line) > limit:
+                if cur:
+                    chunks.append(cur)
+                    cur = ""
+                for i in range(0, len(line), limit):
+                    chunks.append(line[i : i + limit])
+                continue
+            if len(cur) + len(line) + 1 > limit:
+                chunks.append(cur)
+                cur = line
+            else:
+                cur = f"{cur}\n{line}" if cur else line
+        if cur:
+            chunks.append(cur)
+        return chunks
+
+
 def build_notifier(cfg: dict) -> BaseNotifier:
     """按 config 的 notify 段构造通知器。缺配置时回退到 console。
 
@@ -151,5 +217,11 @@ def build_notifier(cfg: dict) -> BaseNotifier:
         if token:
             return PushPlusNotifier(token)
         print("[!] notify.channel=pushplus 但未配置 token，回退到 console")
+    elif channel == "telegram":
+        token = (os.environ.get("TELEGRAM_BOT_TOKEN") or notify_cfg.get("telegram_bot_token", "")).strip()
+        chat_id = (os.environ.get("TELEGRAM_CHAT_ID") or notify_cfg.get("telegram_chat_id", "")).strip()
+        if token and chat_id:
+            return TelegramNotifier(token, chat_id)
+        print("[!] notify.channel=telegram 但未配置 bot_token/chat_id，回退到 console")
 
     return ConsoleNotifier()

@@ -1,0 +1,94 @@
+- generic [ref=e3]:
+  - generic [ref=e38]:
+    - list [ref=e46]:
+      - listitem [ref=e47]:
+        - button "1" [ref=e48] [cursor=pointer]
+      - listitem [ref=e49]:
+        - button "2" [ref=e50] [cursor=pointer]
+      - listitem [ref=e51]:
+        - button "3" [ref=e52] [cursor=pointer]
+    - generic [ref=e55]:
+      - generic [ref=e57]:
+        - 'generic "图标: search" [ref=e59]'
+        - textbox "搜索职位或关键词" [ref=e62]
+        - generic [ref=e63] [cursor=pointer]: 搜索职位
+      - generic [ref=e65]:
+        - generic [ref=e67]:
+          - menu [ref=e89]:
+            - menuitem [ref=e90]:
+              - generic "TGT专项" [ref=e91] [cursor=pointer]:
+                - text: TGT专项
+                - menu [ref=e92]:
+                  - menuitem "TGT-顶尖青年技术天才计划" [ref=e93]
+                  - menuitem "TGT-顶尖青年技术实习生" [ref=e96]
+            - menuitem [ref=e99]:
+              - generic "应届生" [ref=e100] [cursor=pointer]:
+                - text: 应届生
+                - menu [ref=e101]:
+                  - menuitem "JDS-新星计划" [ref=e102]
+                  - menuitem "TET-管理培训生" [ref=e105]
+                  - menuitem "新锐之星" [ref=e108]
+            - menuitem [ref=e111]:
+              - generic "实习生" [ref=e112] [cursor=pointer]:
+                - text: 实习生
+                - menu [ref=e113]:
+                  - menuitem "JD YOUNG-实习生计划" [ref=e114]
+                  - menuitem "新锐之星实习生" [ref=e117]
+          - generic [ref=e68]:
+            - paragraph [ref=e69]: 京东招聘公众号
+            - paragraph [ref=e70]: 关注了解最新资讯
+        - generic [ref=e71]:
+          - generic [ref=e72]:
+            - generic [ref=e73]:
+              - generic [ref=e74]: 职位类别
+              - generic [ref=e75] [cursor=pointer]: 不限
+            - generic [ref=e76]:
+              - generic [ref=e77]: 工作地点
+              - generic [ref=e78] [cursor=pointer]: 不限
+            - generic [ref=e79]:
+              - generic [ref=e80]: 所属业务
+              - generic [ref=e81] [cursor=pointer]: 不限
+              - generic [ref=e121]:
+                - generic [ref=e122]:
+                  - 'generic "图标: left"'
+                - generic [ref=e123]:
+                  - generic:
+                    - generic [ref=e124] [cursor=pointer]: 京东零售
+                    - generic [ref=e125] [cursor=pointer]: 京东物流
+                    - generic [ref=e126] [cursor=pointer]: 京东科技
+                    - generic [ref=e127] [cursor=pointer]: 京东健康
+                    - generic [ref=e128] [cursor=pointer]: 京东国际
+                    - generic [ref=e129] [cursor=pointer]: 京东产发
+                    - generic [ref=e130] [cursor=pointer]: 京东工业
+                    - generic [ref=e131] [cursor=pointer]: 京东创新零售
+                    - generic [ref=e132] [cursor=pointer]: CHO体系
+                    - generic [ref=e133] [cursor=pointer]: CCO体系
+                    - generic [ref=e134] [cursor=pointer]: CFO体系
+                - 'generic "图标: right" [ref=e136] [cursor=pointer]'
+          - paragraph [ref=e82]:
+            - generic [ref=e83]: 职位推荐
+            - generic [ref=e84]: 0个
+          - paragraph [ref=e87]: 没有对应职位，看下其他的结果吧～
+  - generic [ref=e6]:
+    - generic [ref=e7]:
+      - link "社会招聘" [ref=e11] [cursor=pointer]:
+        - /url: https://zhaopin.jd.com/login;jsessionid=3BFB98F66EE90D0F453A8D05A65E6B86.s1
+      - list [ref=e13]:
+        - listitem [ref=e14]
+        - listitem [ref=e16]
+        - listitem [ref=e18]
+    - paragraph [ref=e20]: Copyright © 2004-2025 京东JD.com 版权所有
+  - generic [ref=e22]:
+    - generic [ref=e27]:
+      - link "首页" [ref=e28] [cursor=pointer]:
+        - /url: "#/"
+      - link "招聘职位" [ref=e29] [cursor=pointer]:
+        - /url: "#/jobs"
+      - link "招聘动态" [ref=e30] [cursor=pointer]:
+        - /url: "#/news"
+      - link "人才项目" [ref=e31] [cursor=pointer]:
+        - /url: "#/talentProject"
+      - link "关于京东" [ref=e32] [cursor=pointer]:
+        - /url: "#/about"
+    - link "登录" [ref=e34] [cursor=pointer]:
+      - /url: javascript:;

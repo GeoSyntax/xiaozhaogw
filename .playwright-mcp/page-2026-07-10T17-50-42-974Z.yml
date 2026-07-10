@@ -1,0 +1,29 @@
+- generic [ref=e4]:
+  - generic [ref=e6]:
+    - link [ref=e7] [cursor=pointer]:
+      - /url: "#/official/index/"
+    - list [ref=e9]:
+      - listitem [ref=e10]:
+        - link "社会招聘" [ref=e11] [cursor=pointer]:
+          - /url: "#/official/social/"
+      - listitem [ref=e12]:
+        - link "日常实习" [ref=e13] [cursor=pointer]:
+          - /url: "#/official/trainee/"
+      - listitem [ref=e14]:
+        - link "校园招聘" [ref=e15] [cursor=pointer]:
+          - /url: https://campus.kuaishou.cn/recruit/campus/e/#/campus/index/
+      - listitem [ref=e16]:
+        - link "关于快手" [ref=e17] [cursor=pointer]:
+          - /url: "#/official/jianghu/"
+    - link "注册/登录" [ref=e21] [cursor=pointer]:
+      - /url: "#/official/login/"
+  - main [ref=e22]:
+    - generic [ref=e23]:
+      - generic [ref=e24]: 抱歉，您的浏览器不支持内嵌视频
+      - generic [ref=e27]:
+        - generic [ref=e28]: Copyright © 2023 北京快手科技有限公司 All Rights Reserved.
+        - generic [ref=e29]:
+          - link "京ICP备15023266号-4" [ref=e30] [cursor=pointer]:
+            - /url: https://beian.miit.gov.cn/#/Integrated/recordQuery
+          - link "京公网安备11010802021190号" [ref=e32] [cursor=pointer]:
+            - /url: http://www.beian.gov.cn/portal/registerSystemInfo

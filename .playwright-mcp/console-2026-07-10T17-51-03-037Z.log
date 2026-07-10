@@ -1,0 +1,3 @@
+[     586ms] [WARNING] Manifest: property 'start_url' ignored, should be same origin as document. @ https://s2-11760.kwimgs.com/kos/nlav11760/dev/careers-campus/20260630-190031/assets/manifest.json:0
+[     703ms] [WARNING] [warn 102] user_id 为空，请确定是否传入，如果是异步通过 updateCommonPackage 接口传入，可以忽略该提示! @ https://s2-11760.kwimgs.com/kos/nlav11760/dev/careers-campus/20260630-190031/assets/js/antd.38fb7efc.chunk.js:0
+[     835ms] [ERROR] Failed to load resource: the server responded with a status of 401 () @ https://campus.kuaishou.cn/recruit/campus/e/api/users/user/info:0

@@ -1,0 +1,25 @@
+- generic [ref=e3]:
+  - heading "404" [level=1] [ref=e5]
+  - generic [ref=e6]:
+    - generic [ref=e7]:
+      - link "社会招聘" [ref=e11] [cursor=pointer]:
+        - /url: https://zhaopin.jd.com/login;jsessionid=3BFB98F66EE90D0F453A8D05A65E6B86.s1
+      - list [ref=e13]:
+        - listitem [ref=e14]
+        - listitem [ref=e16]
+        - listitem [ref=e18]
+    - paragraph [ref=e20]: Copyright © 2004-2025 京东JD.com 版权所有
+  - generic [ref=e22]:
+    - generic [ref=e27]:
+      - link "首页" [ref=e28] [cursor=pointer]:
+        - /url: "#/"
+      - link "招聘职位" [ref=e29] [cursor=pointer]:
+        - /url: "#/jobs"
+      - link "招聘动态" [ref=e30] [cursor=pointer]:
+        - /url: "#/news"
+      - link "人才项目" [ref=e31] [cursor=pointer]:
+        - /url: "#/talentProject"
+      - link "关于京东" [ref=e32] [cursor=pointer]:
+        - /url: "#/about"
+    - link "登录" [ref=e34] [cursor=pointer]:
+      - /url: javascript:;

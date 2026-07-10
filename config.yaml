@@ -93,12 +93,17 @@ filter:
     - 行政
 
 # ── 通知 ──
-# channel 三选一：
+# channel 四选一：
 #   console    命令行打印(调试用，默认)
 #   serverchan Server酱微信推送，去 https://sct.ftqq.com 登录拿 SendKey
 #   pushplus   PushPlus微信推送，去 https://www.pushplus.plus 登录拿 token
-# 想收手机通知：把 channel 改成 serverchan 或 pushplus，并填对应的 key。
+#   telegram   Telegram Bot 推送，找 @BotFather 建 bot 拿 token，@userinfobot 拿 chat_id
+# 想收手机通知：把 channel 改成对应值，并填 key。
+# 注意：Telegram 国内需代理才能访问，但 GitHub Actions 海外 IP 可直连——
+#      所以 telegram 渠道最适合放云端跑（本地跑 TG 需自备代理）。
 notify:
   channel: console
   serverchan_sendkey: ""
   pushplus_token: ""
+  telegram_bot_token: ""
+  telegram_chat_id: ""
