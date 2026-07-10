@@ -36,6 +36,11 @@ companies:
     enabled: true
     project_id: 72      # 72=雷火2026届校招；换届只改这里
     max_pages: 10
+  jd:
+    enabled: true
+    job_type: "present"  # present=校招在招; intern=实习(当前为空)
+    max_pages: 5
+    page_size: 50
   # 以下是飞书招聘平台系(字节/蔚来/理想同一套接口)，带签名，需浏览器，仅本地
   bytedance:
     enabled: true
