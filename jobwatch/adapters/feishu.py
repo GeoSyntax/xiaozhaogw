@@ -204,3 +204,10 @@ class LiAutoAdapter(FeishuAdapter):
     host = "li.jobs.feishu.cn"
     # 理想用社招/全量门户 /index，不是 /campus/position
     portal = "index"
+
+
+class IqiyiAdapter(FeishuAdapter):
+    name = "iqiyi"
+    display = "爱奇艺"
+    host = "careers.iqiyi.com"
+    portal = "campus"

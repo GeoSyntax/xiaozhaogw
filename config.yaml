@@ -59,6 +59,12 @@ companies:
     enabled: true
     max_pages: 3
     headless: true
+  iqiyi:
+    enabled: true
+    max_pages: 3
+    headless: true
+    max_pages: 3
+    headless: true
 
 # CI 环境(GitHub Actions)设为 true，跳过需要浏览器的公司(字节/B站/蔚来/理想)。
 # 本地跑保持 false。

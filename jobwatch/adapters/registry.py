@@ -10,7 +10,7 @@
 from __future__ import annotations
 
 from .bilibili import BilibiliAdapter
-from .feishu import BytedanceAdapter, LiAutoAdapter, NioAdapter
+from .feishu import BytedanceAdapter, IqiyiAdapter, LiAutoAdapter, NioAdapter
 from .iflytek import IflytekAdapter
 from .jd import JDAdapter
 from .leihuo import LeihuoAdapter
@@ -36,6 +36,7 @@ REGISTRY: dict[str, tuple[type, bool]] = {
     "bytedance": (BytedanceAdapter, True),
     "nio": (NioAdapter, True),
     "liauto": (LiAutoAdapter, True),
+    "iqiyi": (IqiyiAdapter, True),
 }
 
 
